@@ -1,15 +1,25 @@
 package com.imageprocessing.enzoftware.imageprocessingapp;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
+import android.widget.Toast;
+
 import com.mvc.imagepicker.ImagePicker;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
     ImageButton picker,output;
     Button medianFilter,mirrorFilter,btnsave;
+    ProgressBar scrollView;
+
+    private static int RESULT_LOAD_IMG = 1;
+    String imgDecodableString;
+    public Bitmap bmp = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +46,83 @@ public class MainActivity extends AppCompatActivity {
         output = (ImageButton) findViewById(R.id.outputImage);
         mirrorFilter = (Button) findViewById(R.id.mirrorFilter);
         btnsave = (Button) findViewById(R.id.ButtonSave);
+        scrollView = (ProgressBar) findViewById(R.id.scrollView);
         picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ImagePicker.setMinQuality(600, 600);
-                onPickImage(picker);
+
+
+
+                loadImagefromGallery();
+
+
+               //onPickImage(picker);
+            }
+        });
+
+        medianFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bmp != null){
+                    output.setImageBitmap(medianFilterAlgorithm(bmp));
+                }
+            }
+        });
+
+
+        mirrorFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bmp != null){
+                    output.setImageBitmap(mirrorFilterAlgorithm(bmp));
+                }
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveImage(bmp,"fotazo");
             }
         });
 
 
     }
 
-    private void saveImage(Bitmap finalBitmap, String image_name) {
 
+
+    public void loadImagefromGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, RESULT_LOAD_IMG);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        try {
+            if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imgDecodableString = cursor.getString(columnIndex);
+                cursor.close();
+                picker.setImageBitmap(BitmapFactory.decodeFile(imgDecodableString));
+                Bitmap b = BitmapFactory.decodeFile(imgDecodableString);
+                final Bitmap resizable = Bitmap.createScaledBitmap(b,714,438,false);
+                bmp = Bitmap.createScaledBitmap(resizable,714,438,false);
+
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG)
+                    .show();
+        }
+
+    }
+
+
+    private void saveImage(Bitmap finalBitmap, String image_name) {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root);
         myDir.mkdirs();
@@ -126,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
         return out;
     }
-
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
@@ -157,9 +236,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+*/
     public void onPickImage(View view) {
-
         ImagePicker.pickImage(this, "Select your image:");
     }
 }

@@ -8,6 +8,14 @@
     tools:context="com.imageprocessing.enzoftware.imageprocessingapp.MainActivity"
     android:weightSum="1">
 
+    <ProgressBar
+        android:layout_width="100dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/scrollView" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
