@@ -1,24 +1,26 @@
 package com.imageprocessing.enzoftware.imageprocessingapp;
 
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-
-
 import com.mvc.imagepicker.ImagePicker;
-
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Arrays;
+
+
 
 public class MainActivity extends AppCompatActivity {
 
     ImageButton picker,output;
-    Button medianFilter,mirrorFilter;
+    Button medianFilter,mirrorFilter,btnsave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         medianFilter = (Button) findViewById(R.id.medianFilter);
         output = (ImageButton) findViewById(R.id.outputImage);
         mirrorFilter = (Button) findViewById(R.id.mirrorFilter);
+        btnsave = (Button) findViewById(R.id.ButtonSave);
         picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -36,6 +39,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void saveImage(Bitmap finalBitmap, String image_name) {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
+        myDir.mkdirs();
+        String fname = "Image-" + image_name+ ".jpg";
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
+        Log.i("LOAD", root + fname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Bitmap medianFilterAlgorithm(Bitmap bitmap){
@@ -110,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
         final Bitmap resizable = Bitmap.createScaledBitmap(bitmap,714,438,false);
         // TODO do something with the bitmap
         picker.setImageBitmap(resizable);
+        final Bitmap copy = Bitmap.createBitmap(resizable,0,0,resizable.getWidth(),resizable.getHeight());
         medianFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap copy = Bitmap.createBitmap(resizable,0,0,resizable.getWidth(),resizable.getHeight());
                 output.setImageBitmap(medianFilterAlgorithm(copy));
             }
         });
@@ -122,8 +145,14 @@ public class MainActivity extends AppCompatActivity {
         mirrorFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap copy = Bitmap.createBitmap(resizable,0,0,resizable.getWidth(),resizable.getHeight());
                 output.setImageBitmap(mirrorFilterAlgorithm(copy));
+            }
+        });
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveImage(copy,"fotazo");
             }
         });
 
