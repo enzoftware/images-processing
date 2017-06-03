@@ -15,7 +15,7 @@
         android:text="INPUT"
         android:textAlignment="center"
         android:textColor="@android:color/background_dark"
-        android:textSize="30sp"
+        android:textSize="24sp"
         tools:layout_editor_absoluteY="1dp"
         tools:layout_editor_absoluteX="156dp" />
 
@@ -67,7 +67,7 @@
         android:text="OUTPUT"
         android:textAlignment="center"
         android:textColor="@android:color/background_dark"
-        android:textSize="30sp"
+        android:textSize="24sp"
         tools:layout_editor_absoluteY="1dp"
         tools:layout_editor_absoluteX="156dp" />
 
@@ -78,6 +78,12 @@
         app:srcCompat="@mipmap/ic_launcher"
         tools:layout_editor_absoluteX="15dp"
         tools:layout_editor_absoluteY="30dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar foto"
+        android:layout_gravity="center"/>
 
 
 </LinearLayout>

@@ -31,25 +31,21 @@ public class MainActivity extends AppCompatActivity {
         picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImagePicker.setMinQuality(600, 600);
+                //ImagePicker.setMinQuality(600, 600);
                 onPickImage(picker);
             }
         });
 
     }
 
-    private void medianFilterAlgorithm(Bitmap bitmap){
+    private Bitmap medianFilterAlgorithm(Bitmap bitmap){
         int [] pixel = new int [9];
         int [] R = new int[9];
         int [] G = new int[9];
         int [] B = new int[9];
-
+        Bitmap out = bitmap;
         for(int i = 1  ; i< bitmap.getWidth() -1 ; i++){
             for (int j = 1 ; j < bitmap.getHeight() -1 ; j++){
-                /*int colour = bitmap.getPixel(i, j);
-                int red = Color.red(colour);
-                int blue = Color.blue(colour);
-                int green = Color.green(colour);*/
 
                 pixel[0] = bitmap.getPixel(i-1,j-1);
                 pixel[1] = bitmap.getPixel(i-1,j);
@@ -70,19 +66,20 @@ public class MainActivity extends AppCompatActivity {
                 Arrays.sort(R);
                 Arrays.sort(G);
                 Arrays.sort(B);
-                bitmap.setPixel(i,j, Color.rgb(R[4],G[4],B[4]));
+                out.setPixel(i,j, Color.rgb(R[4],G[4],B[4]));
             }
         }
 
-
+        return out;
     }
 
-    private void mirrorFilterAlgorithm(Bitmap photo){
+    private Bitmap mirrorFilterAlgorithm(Bitmap photo){
         int r,g,b;
         int r1,g1,b1;
         int width = photo.getWidth()-1;
         int color;
         int color1;
+        Bitmap out = photo;
         for(int i=0;i< ( photo.getWidth() ) / 2;i++){
             for(int j=0;j<photo.getHeight();j++){
                 //se obtiene el color del pixel
@@ -98,11 +95,13 @@ public class MainActivity extends AppCompatActivity {
                 b1 = Color.blue(color1);
 
                 //se coloca en la nueva imagen con los valores invertidos
-                photo.setPixel(i,j,Color.rgb(r,g,b));
-                photo.setPixel(width,j,Color.rgb(r1,g1,b1));
+                out.setPixel(i,j,Color.rgb(r,g,b));
+                out.setPixel(width,j,Color.rgb(r1,g1,b1));
             }
             width--;
         }
+
+        return out;
     }
 
     @Override
@@ -114,8 +113,8 @@ public class MainActivity extends AppCompatActivity {
         medianFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                medianFilterAlgorithm(resizable);
-                output.setImageBitmap(resizable);
+                Bitmap copy = Bitmap.createBitmap(resizable,0,0,resizable.getWidth(),resizable.getHeight());
+                output.setImageBitmap(medianFilterAlgorithm(copy));
             }
         });
 
@@ -123,15 +122,15 @@ public class MainActivity extends AppCompatActivity {
         mirrorFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mirrorFilterAlgorithm(resizable);
-                output.setImageBitmap(resizable);
+                Bitmap copy = Bitmap.createBitmap(resizable,0,0,resizable.getWidth(),resizable.getHeight());
+                output.setImageBitmap(mirrorFilterAlgorithm(copy));
             }
         });
 
     }
 
     public void onPickImage(View view) {
-        // Click on image button
+
         ImagePicker.pickImage(this, "Select your image:");
     }
 }
