@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,12 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.mvc.imagepicker.ImagePicker;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Arrays;
@@ -47,16 +43,13 @@ public class MainActivity extends AppCompatActivity {
         mirrorFilter = (Button) findViewById(R.id.mirrorFilter);
         btnsave = (Button) findViewById(R.id.ButtonSave);
         scrollView = (ProgressBar) findViewById(R.id.scrollView);
+
         picker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-
                 loadImagefromGallery();
 
-
-               //onPickImage(picker);
             }
         });
 
@@ -108,7 +101,11 @@ public class MainActivity extends AppCompatActivity {
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 imgDecodableString = cursor.getString(columnIndex);
                 cursor.close();
-                picker.setImageBitmap(BitmapFactory.decodeFile(imgDecodableString));
+                Bitmap copy = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imgDecodableString),
+                        714,
+                        438,
+                        false);
+                picker.setImageBitmap(copy);
                 Bitmap b = BitmapFactory.decodeFile(imgDecodableString);
                 final Bitmap resizable = Bitmap.createScaledBitmap(b,714,438,false);
                 bmp = Bitmap.createScaledBitmap(resizable,714,438,false);
@@ -202,42 +199,7 @@ public class MainActivity extends AppCompatActivity {
             }
             width--;
         }
-
         return out;
     }
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-        final Bitmap resizable = Bitmap.createScaledBitmap(bitmap,714,438,false);
-        // TODO do something with the bitmap
-        picker.setImageBitmap(resizable);
-        final Bitmap copy = Bitmap.createBitmap(resizable,0,0,resizable.getWidth(),resizable.getHeight());
-        medianFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                output.setImageBitmap(medianFilterAlgorithm(copy));
-            }
-        });
 
-
-        mirrorFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                output.setImageBitmap(mirrorFilterAlgorithm(copy));
-            }
-        });
-
-        btnsave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveImage(copy,"fotazo");
-            }
-        });
-
-    }
-*/
-    public void onPickImage(View view) {
-        ImagePicker.pickImage(this, "Select your image:");
-    }
 }
