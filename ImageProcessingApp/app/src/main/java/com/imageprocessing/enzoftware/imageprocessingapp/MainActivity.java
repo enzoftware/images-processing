@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Foto guardada con exito !!", Toast.LENGTH_LONG)
+                        .show();
                 saveImage(bmp,"fotazo");
             }
         });
