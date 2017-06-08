@@ -17,20 +17,23 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.wang.avi.AVLoadingIndicatorView;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Arrays;
 
 
 
-public class MainActivity extends AppCompatActivity {
 
+
+public class MainActivity extends AppCompatActivity {
+    AVLoadingIndicatorView avi;
     ImageButton picker,output;
     Button medianFilter,mirrorFilter,btnsave;
     ProgressBar scrollView;
-
     private static int RESULT_LOAD_IMG = 1;
-    String imgDecodableString;
+    String impDeclarableString;
     public Bitmap bmp = null;
 
     @Override
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         medianFilter = (Button) findViewById(R.id.medianFilter);
         output = (ImageButton) findViewById(R.id.outputImage);
         mirrorFilter = (Button) findViewById(R.id.mirrorFilter);
+        avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
         btnsave = (Button) findViewById(R.id.ButtonSave);
         scrollView = (ProgressBar) findViewById(R.id.scrollView);
 
@@ -57,7 +61,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(bmp != null){
+                    startAnim();
                     output.setImageBitmap(medianFilterAlgorithm(bmp));
+                }else{
+                    Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
+                            .show();
                 }
             }
         });
@@ -66,8 +74,12 @@ public class MainActivity extends AppCompatActivity {
         mirrorFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startAnim();
                 if(bmp != null){
                     output.setImageBitmap(mirrorFilterAlgorithm(bmp));
+                }else{
+                    Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
+                            .show();
                 }
             }
         });
@@ -85,6 +97,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    void startAnim(){
+            //avi.show();
+         avi.smoothToShow();
+    }
+
+    void callGridLoader(){
+
+    }
 
     public void loadImagefromGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -101,14 +121,14 @@ public class MainActivity extends AppCompatActivity {
                 Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
                 cursor.moveToFirst();
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                imgDecodableString = cursor.getString(columnIndex);
+                impDeclarableString = cursor.getString(columnIndex);
                 cursor.close();
-                Bitmap copy = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(imgDecodableString),
+                Bitmap copy = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(impDeclarableString),
                         714,
                         438,
                         false);
                 picker.setImageBitmap(copy);
-                Bitmap b = BitmapFactory.decodeFile(imgDecodableString);
+                Bitmap b = BitmapFactory.decodeFile(impDeclarableString);
                 final Bitmap resizable = Bitmap.createScaledBitmap(b,714,438,false);
                 bmp = Bitmap.createScaledBitmap(resizable,714,438,false);
 
@@ -183,19 +203,18 @@ public class MainActivity extends AppCompatActivity {
         Bitmap out = photo;
         for(int i=0;i< ( photo.getWidth() ) / 2;i++){
             for(int j=0;j<photo.getHeight();j++){
-                //se obtiene el color del pixel
+
                 color1 = photo.getPixel(i,j);
                 color = photo.getPixel(width,j);
-                //se extraen los valores RGB
+
                 r = Color.red(color);
-                g = Color.green(color); // ultima pos
+                g = Color.green(color);
                 b = Color.blue(color);
 
                 r1 = Color.red(color1);
-                g1 = Color.green(color1); // primera pos
+                g1 = Color.green(color1);
                 b1 = Color.blue(color1);
 
-                //se coloca en la nueva imagen con los valores invertidos
                 out.setPixel(i,j,Color.rgb(r,g,b));
                 out.setPixel(width,j,Color.rgb(r1,g1,b1));
             }

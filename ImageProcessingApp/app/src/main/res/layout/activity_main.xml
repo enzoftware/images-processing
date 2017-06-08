@@ -8,14 +8,6 @@
     tools:context="com.imageprocessing.enzoftware.imageprocessingapp.MainActivity"
     android:weightSum="1">
 
-    <ProgressBar
-        android:layout_width="100dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:id="@+id/scrollView" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,12 +50,12 @@
             android:id="@+id/mirrorFilter"/>
 
         <Button
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:id="@+id/cannyFilter"
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:text="Filtro Canny"
-            android:id="@+id/cannyFilter"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="Filtro Canny" />
 
 
     </LinearLayout>
@@ -85,14 +77,32 @@
         android:layout_height="175dp"
         app:srcCompat="@mipmap/ic_launcher"
         tools:layout_editor_absoluteX="15dp"
-        tools:layout_editor_absoluteY="30dp" />
+        tools:layout_editor_absoluteY="30dp"
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Guardar foto"
-        android:layout_gravity="center"
-        android:id="@+id/ButtonSave"/>
+        />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/ButtonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Guardar foto" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            style="@style/AVLoadingIndicatorView"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:visibility="invisible"
+            android:layout_marginLeft="150dp"
+            app:indicatorColor="@color/colorPrimary"
+            app:indicatorName="BallGridBeatIndicator" />
+
+    </TableRow>
 
 
 </LinearLayout>
