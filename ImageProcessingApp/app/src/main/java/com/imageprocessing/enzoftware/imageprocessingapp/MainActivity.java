@@ -30,7 +30,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
     AVLoadingIndicatorView avi;
     ImageButton picker,output;
-    Button medianFilter,mirrorFilter,btnsave;
+    Button medianFilter,mirrorFilter,btnsave,cannyFilter;
     ProgressBar scrollView;
     private static int RESULT_LOAD_IMG = 1;
     String impDeclarableString;
@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
         btnsave = (Button) findViewById(R.id.ButtonSave);
         scrollView = (ProgressBar) findViewById(R.id.scrollView);
+        cannyFilter = (Button) findViewById(R.id.cannyFilter);
+
+
 
         picker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +66,20 @@ public class MainActivity extends AppCompatActivity {
                 if(bmp != null){
                     startAnim();
                     output.setImageBitmap(medianFilterAlgorithm(bmp));
+                }else{
+                    Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
+                            .show();
+                }
+            }
+        });
+
+
+        cannyFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bmp != null){
+                    startAnim();
+                    output.setImageBitmap(cannyFilterAlg(bmp));
                 }else{
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
                             .show();
@@ -223,4 +240,81 @@ public class MainActivity extends AppCompatActivity {
         return out;
     }
 
+
+    private Bitmap cannyFilterAlg(Bitmap Imagem){
+        int height = Imagem.getHeight();
+        int width = Imagem.getWidth();
+        int[][] Cannys = new int[][]{{0, 1, 0}, {1, -4, 1}, {0, 1, 0}};
+        int todosPixelsR = 0;
+        int todosPixelsG = 0;
+        int todosPixelsB = 0;
+        int i , j;
+        int color;
+        int aux , aux2;
+        for (i = 0; i < height - 2; i++)
+        {
+            for (j = 0; j < width - 2; j++)
+            {
+                for (aux = 0; aux < 3; aux++)
+                {
+                    for (aux2 = 0; aux2 < 3; aux2++)
+                    {
+                        color = Imagem.getPixel(j+aux,i+aux2);
+                        todosPixelsR += Color.red(color)* Cannys[aux2][aux];
+                        todosPixelsG += Color.green(color) * Cannys[aux2][aux];
+                        todosPixelsB += Color.blue(color) * Cannys[aux2][aux];
+                    }
+
+                }
+
+
+                if (todosPixelsR < 0)
+                {
+                    todosPixelsR = 0;
+                }
+                else
+                {
+                    if (todosPixelsR > 255)
+                    {
+                        todosPixelsR = 255;
+                    }
+                }
+                if (todosPixelsG < 0)
+                {
+                    todosPixelsG = 0;
+                }
+                else
+                {
+                    if (todosPixelsG > 255)
+                    {
+                        todosPixelsG = 255;
+                    }
+                }
+                if (todosPixelsB < 0)
+                {
+                    todosPixelsB = 0;
+                }
+                else
+                {
+                    if (todosPixelsB > 255)
+                    {
+                        todosPixelsB = 255;
+                    }
+
+                }
+                int cinza = (todosPixelsR + todosPixelsG + todosPixelsB) / 3;
+
+
+                Imagem.setPixel(j + 1, i + 1, Color.argb(255, cinza, cinza, cinza));
+                todosPixelsR = 0;
+                todosPixelsG = 0;
+                todosPixelsB = 0;
+                cinza = 0;
+
+            }
+        }
+        return Imagem;
+    }
 }
+
+
