@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static int RESULT_LOAD_IMG = 1;
     String impDeclarableString;
     public Bitmap bmp = null;
+    public Bitmap b = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +64,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(bmp != null){
+                    TaskMedian tme = new TaskMedian();
+                    tme.execute();
                     startAnim();
-                    output.setVisibility(View.GONE);
-                    output.setImageBitmap(medianFilterAlgorithm(bmp));
+                    output.setImageBitmap(b);
                 }else{
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
                             .show();
@@ -78,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(bmp != null){
                     startAnim();
-                    output.setVisibility(View.GONE);
                     output.setImageBitmap(cannyFilterAlg(bmp));
                 }else{
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
@@ -91,24 +93,20 @@ public class MainActivity extends AppCompatActivity {
         mirrorFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap b = null;
+
 
                 if(bmp != null){
-                    startAnim();
-                    long futureTime = System.currentTimeMillis() + 10000;
-                    while( System.currentTimeMillis() < futureTime ){
-                        synchronized (this){
-                            try{
-                                //wait(futureTime - System.currentTimeMillis());
-                                 b = mirrorFilterAlgorithm(bmp);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
+                    TaskMirror tm = new TaskMirror();
+                    tm.execute();
+                    avi.show();
+
+                    while ( b == null){
+                        Log.d("Loading", "second");
                     }
-                    avi.hide();
-                    //output.setVisibility(View.GONE);
+
                     output.setImageBitmap(b);
+                    //avi.hide();
+
                 }else{
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
                             .show();
@@ -248,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
             }
             width--;
         }
+        Log.d("FUNCIONA","FUNCIONA");
         return out;
     }
 
@@ -326,6 +325,27 @@ public class MainActivity extends AppCompatActivity {
         }
         return Imagem;
     }
+
+
+    private class TaskMirror extends AsyncTask <Void , Void , Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            b = mirrorFilterAlgorithm(bmp);
+            return null;
+        }
+    }
+
+
+    private class TaskMedian extends  AsyncTask <Void,Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            b = medianFilterAlgorithm(bmp);
+            return null;
+        }
+    }
+
 }
 
 
