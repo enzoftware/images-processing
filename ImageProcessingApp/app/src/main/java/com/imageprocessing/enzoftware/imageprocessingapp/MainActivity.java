@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(bmp != null){
                     startAnim();
+                    output.setVisibility(View.GONE);
                     output.setImageBitmap(medianFilterAlgorithm(bmp));
                 }else{
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(bmp != null){
                     startAnim();
+                    output.setVisibility(View.GONE);
                     output.setImageBitmap(cannyFilterAlg(bmp));
                 }else{
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
@@ -88,9 +91,24 @@ public class MainActivity extends AppCompatActivity {
         mirrorFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startAnim();
+                Bitmap b = null;
+
                 if(bmp != null){
-                    output.setImageBitmap(mirrorFilterAlgorithm(bmp));
+                    startAnim();
+                    long futureTime = System.currentTimeMillis() + 10000;
+                    while( System.currentTimeMillis() < futureTime ){
+                        synchronized (this){
+                            try{
+                                //wait(futureTime - System.currentTimeMillis());
+                                 b = mirrorFilterAlgorithm(bmp);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                    avi.hide();
+                    //output.setVisibility(View.GONE);
+                    output.setImageBitmap(b);
                 }else{
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
                             .show();
@@ -115,9 +133,6 @@ public class MainActivity extends AppCompatActivity {
         avi.show();
     }
 
-    void callGridLoader(){
-
-    }
 
     public void loadImagefromGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

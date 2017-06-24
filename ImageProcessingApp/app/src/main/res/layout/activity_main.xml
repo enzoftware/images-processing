@@ -97,8 +97,8 @@
             style="@style/AVLoadingIndicatorView"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:visibility="invisible"
             android:layout_marginLeft="150dp"
+            android:visibility="invisible"
             app:indicatorColor="@color/colorPrimary"
             app:indicatorName="BallGridBeatIndicator" />
 
