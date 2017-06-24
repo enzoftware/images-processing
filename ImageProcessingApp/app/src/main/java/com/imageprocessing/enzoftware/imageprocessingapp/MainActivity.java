@@ -24,9 +24,6 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 
 
-
-
-
 public class MainActivity extends AppCompatActivity {
     AVLoadingIndicatorView avi;
     ImageButton picker,output;
@@ -115,8 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     void startAnim(){
-            //avi.show();
-         avi.smoothToShow();
+        avi.show();
     }
 
     void callGridLoader(){
