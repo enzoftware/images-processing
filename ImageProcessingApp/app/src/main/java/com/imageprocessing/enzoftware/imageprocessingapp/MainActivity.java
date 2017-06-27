@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
         medianFilter = (Button) findViewById(R.id.medianFilter);
         output = (ImageButton) findViewById(R.id.outputImage);
         mirrorFilter = (Button) findViewById(R.id.mirrorFilter);
-        avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
-        btnsave = (Button) findViewById(R.id.ButtonSave);
         scrollView = (ProgressBar) findViewById(R.id.scrollView);
         cannyFilter = (Button) findViewById(R.id.cannyFilter);
 
@@ -62,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (bmp != null) {
                     output.setImageBitmap(medianFilterAlgorithm(bmp));
+                    saveImage(bmp, "fotazo");
                 } else {
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
                             .show();
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (bmp != null) {
-                    output.setImageBitmap(cannyFilterAlg(bmp));
+                    cannyFilterAlg(bmp);
                 } else {
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
                             .show();
@@ -90,22 +89,13 @@ public class MainActivity extends AppCompatActivity {
 
                 if (bmp != null) {
                     output.setImageBitmap(mirrorFilterAlgorithm(bmp));
+                    saveImage(bmp, "fotazo");
                 } else {
                     Toast.makeText(getApplicationContext(), "No has seleccionado ninguna foto", Toast.LENGTH_LONG)
                             .show();
                 }
             }
         });
-
-        btnsave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Foto guardada con exito !!", Toast.LENGTH_LONG)
-                        .show();
-                saveImage(bmp, "fotazo");
-            }
-        });
-
 
     }
 
@@ -199,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
                 out.setPixel(i, j, Color.rgb(R[4], G[4], B[4]));
             }
         }
-
         return out;
     }
 
@@ -236,8 +225,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Bitmap cannyFilterAlg(Bitmap Image) {
         Canny myCanny = new Canny();
-        Bitmap bit =  myCanny.process(Image);
-        return bit;
+        output.setImageBitmap(myCanny.process(Image));
+
+        return Image;
     }
 
 

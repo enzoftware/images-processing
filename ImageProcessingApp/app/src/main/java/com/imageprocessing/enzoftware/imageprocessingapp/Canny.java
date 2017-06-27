@@ -2,10 +2,11 @@ package com.imageprocessing.enzoftware.imageprocessingapp;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Environment;
+import android.util.Log;
 
-/**
- * Created by enzoftware on 6/25/17.
- */
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class Canny {
     public Bitmap process(Bitmap Imagem){
@@ -396,7 +397,7 @@ public class Canny {
             }
         }
 
-        int threshold = 80;
+        int threshold = 50;
         int[][] allPixRf = new int[width][ height];
         int[][] allPixGf = new int[width][ height];
         int[][] allPixBf = new int[width][ height];
@@ -443,7 +444,28 @@ public class Canny {
                     bb.setPixel (i, j, Color.rgb(0,0,0));
             }
         }
-        return bb;
+        saveImage(bb,"fotazo");
+        Imagem = Bitmap.createBitmap(bb,0,0,bb.getWidth(),bb.getHeight());
+        return Imagem;
     }
+
+    private void saveImage(Bitmap finalBitmap, String image_name) {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
+        myDir.mkdirs();
+        String fname = "Image-" + image_name + ".jpg";
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
+        Log.i("LOAD", root + fname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     }
 

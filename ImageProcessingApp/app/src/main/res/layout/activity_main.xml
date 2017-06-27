@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.imageprocessing.enzoftware.imageprocessingapp.MainActivity"
+    android:background="@color/colorPrimary"
     android:weightSum="1">
 
     <TextView
@@ -14,7 +15,7 @@
         android:fontFamily="monospace"
         android:text="INPUT"
         android:textAlignment="center"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         tools:layout_editor_absoluteY="1dp"
         tools:layout_editor_absoluteX="156dp" />
@@ -55,6 +56,7 @@
             android:layout_height="60dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:elevation="6dp"
             android:text="Filtro Canny" />
 
 
@@ -66,7 +68,7 @@
         android:fontFamily="monospace"
         android:text="OUTPUT"
         android:textAlignment="center"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         tools:layout_editor_absoluteY="1dp"
         tools:layout_editor_absoluteX="156dp" />
@@ -81,28 +83,12 @@
 
         />
 
-    <TableRow
+
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/ButtonSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Guardar foto" />
-
-        <com.wang.avi.AVLoadingIndicatorView
-            android:id="@+id/avi"
-            style="@style/AVLoadingIndicatorView"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginLeft="150dp"
-            android:visibility="invisible"
-            app:indicatorColor="@color/colorPrimary"
-            app:indicatorName="BallGridBeatIndicator" />
-
-    </TableRow>
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/love" />
 
 
 </LinearLayout>
