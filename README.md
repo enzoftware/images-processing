@@ -1,7 +1,8 @@
-# procesamiento-imagenes
-Proyecto de matematica computacional -> procesamiento de imagenes 
-<ul>
-<li>Eliminar el ruido de una imagen</li>
-<li>Efecto espejo en la imagen</li>
-<li>Filtro de canny (Edge Filter)</li>
-</ul>
+<h1>Procesamiento de imagenes</h1>
+<span>Proyecto para el curso de matematica computacional de la Universidad Peruana de Ciencias Aplicadas</span>
+<h3>Canny Filter - Edge detection</h3>
+<img src = "http://fileadmin.cs.lth.se/cs/Personal/Calle_Lejdfors/pyip/edges.png" />
+<h3>Median Filter</h3>
+<img src = "http://in.mathworks.com/matlabcentral/mlc-downloads/downloads/submissions/16201/versions/3/previews/toolbox_image/html/content_08.png" />
+<h3>Mirror Filter - Selfie effect</h3>
+<img src ="https://is5-ssl.mzstatic.com/image/thumb/Purple49/v4/26/b6/20/26b620da-31a1-b2e1-35a7-73bcaaabfa90/source/512x512bb.jpg" />
