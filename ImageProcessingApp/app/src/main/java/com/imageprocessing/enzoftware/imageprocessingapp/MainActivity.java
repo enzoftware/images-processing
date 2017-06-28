@@ -27,12 +27,11 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
     AVLoadingIndicatorView avi;
     ImageButton picker, output;
-    Button medianFilter, mirrorFilter, btnsave, cannyFilter;
+    Button medianFilter, mirrorFilter, cannyFilter;
     ProgressBar scrollView;
     private static int RESULT_LOAD_IMG = 1;
     String impDeclarableString;
     public Bitmap bmp = null;
-    public Bitmap b = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    void startAnim() {
-        avi.show();
-    }
 
 
     public void loadImageryGallery() {
@@ -226,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap cannyFilterAlg(Bitmap Image) {
         Canny myCanny = new Canny();
         output.setImageBitmap(myCanny.process(Image));
-
         return Image;
     }
 

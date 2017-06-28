@@ -24,9 +24,9 @@ public class Canny {
             for ( int j = 0; j < Imagem.getHeight(); j++ )
             {
                 int pixi = Imagem.getPixel(i,j);
-                allPixR[i][ j] = Color.red(pixi);    //b.getPixel (i, j).R;
-                allPixG[i][ j] = Color.green(pixi);  //b.getPixel (i, j).G;
-                allPixB[i][ j] = Color.blue(pixi);   //b.getPixel (i, j).B;
+                allPixR[i][ j] = Color.red(pixi);
+                allPixG[i][ j] = Color.green(pixi);
+                allPixB[i][ j] = Color.blue(pixi);
             }
         }
         for ( int i = 2; i < width - 2; i++ )
@@ -59,7 +59,8 @@ public class Canny {
                 n.setPixel (i, j, Color.rgb (red, green, blue));
             }
         }
-        //pictureBox2.Image = n;//////////////////////////////////////////////////////here onward use n///////////////////////////////////////////////
+
+
         int[][] allPixRn = new int[width][height];
         int[][] allPixGn = new int[width][height];
         int[][] allPixBn = new int[width][height];
@@ -69,9 +70,9 @@ public class Canny {
             for ( int j = 0; j < height; j++ )
             {
                 int pixi2 = n.getPixel(i,j);
-                allPixRn[i][ j] = Color.red(pixi2); //n.getPixel (i, j).R;
-                allPixGn[i][ j] =Color.green(pixi2); //n.getPixel (i, j).G;
-                allPixBn[i][ j] =Color.blue(pixi2); //n.getPixel (i, j).B;
+                allPixRn[i][ j] = Color.red(pixi2);
+                allPixGn[i][ j] =Color.green(pixi2);
+                allPixBn[i][ j] =Color.blue(pixi2);
             }
         }
 
@@ -128,7 +129,6 @@ public class Canny {
                     }
                 }
 
-                //find gradieant
                 gradR = (int)Math.sqrt (( new_rx * new_rx ) + ( new_ry * new_ry ));
                 graidientR [i][j]= gradR;
 
@@ -137,9 +137,8 @@ public class Canny {
 
                 gradB = (int)Math.sqrt (( new_bx * new_gx ) + ( new_by * new_by ));
                 graidientB [i][j]= gradB;
-                //
-                //find tans
-                ////////////////tan red//////////////////////////////////
+
+
                 atanR= (int)( ( Math.atan ((double)new_ry / new_rx) ) * ( 180 / Math.PI ) );
                 if ( (atanR > 0 && atanR < 22.5) || (atanR > 157.5 && atanR < 180) )
                 {
@@ -171,9 +170,8 @@ public class Canny {
                 {
                     tanR[i][ j] = 3;
                 }
-                ////////////////tan red end//////////////////////////////////
 
-                ////////////////tan green//////////////////////////////////
+
                 atanG = (int)( ( Math.atan ((double)new_gy / new_gx) ) * ( 180 / Math.PI ) );
                 if ( ( atanG > 0 && atanG < 22.5 ) || ( atanG > 157.5 && atanG < 180 ) )
                 {
@@ -207,10 +205,8 @@ public class Canny {
                 {
                     tanG[i][ j] = 3;
                 }
-                ////////////////tan green end//////////////////////////////////
 
 
-                ////////////////tan blue//////////////////////////////////
                 atanB = (int)( ( Math.atan ((double)new_by / new_bx) ) * ( 180 / Math.PI ) );
                 if ( ( atanB > 0 && atanB < 22.5 ) || ( atanB > 157.5 && atanB < 180 ) )
                 {
@@ -245,7 +241,6 @@ public class Canny {
                 {
                     tanB[i][ j] = 3;
                 }
-                ////////////////tan blue end//////////////////////////////////
             }
         }
 
@@ -258,7 +253,6 @@ public class Canny {
             for ( int j = 2; j < height-2; j++ )
             {
 
-                ////red
                 if ( tanR[i][ j] == 0 )
                 {
                     if ( graidientR[i - 1][ j] < graidientR[i][ j] && graidientR[i + 1][ j] < graidientR[i][ j] )
@@ -303,7 +297,6 @@ public class Canny {
                     }
                 }
 
-                //green
                 if ( tanG[i][ j] == 0 )
                 {
                     if ( graidientG[i - 1][ j] < graidientG[i][ j] && graidientG[i + 1][ j] < graidientG[i][ j] )
@@ -349,7 +342,6 @@ public class Canny {
                     }
                 }
 
-                //blue
                 if ( tanB[i][ j] == 0 )
                 {
                     if ( graidientB[i - 1][ j] < graidientB[i][ j] && graidientB[i + 1][ j] < graidientB[i][ j] )
@@ -402,7 +394,6 @@ public class Canny {
         int[][] allPixGf = new int[width][ height];
         int[][] allPixBf = new int[width][ height];
 
-        // Bitmap bb = new Bitmap (pictureBox1.Image);
         Bitmap bb = Bitmap.createBitmap(Imagem,0,0,width,height);
 
         for (int i = 2; i <width-2 ;i++){
