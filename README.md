@@ -10,3 +10,10 @@
 <br>
 <h3>Mirror Filter - Selfie effect</h3>
 <img src ="https://is5-ssl.mzstatic.com/image/thumb/Purple49/v4/26/b6/20/26b620da-31a1-b2e1-35a7-73bcaaabfa90/source/512x512bb.jpg" />
+
+
+<br>
+
+<h1>Nota :  Si utilizas version de android 6.x + , despues de instalar la aplicacion debes darle los permisos para que pueda ingresar al almacenamiento de tu celular , de lo contrario saldra 'Something went wrong !!!'. Muchas gracias.  - @enzoftware.</h1>
+
+<a> https://www.xatakandroid.com/tutoriales/como-gestionar-los-permisos-de-las-aplicaciones-en-android </a>
