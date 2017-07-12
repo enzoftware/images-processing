@@ -1,5 +1,5 @@
 <h1>Procesamiento de imagenes</h1>
-<span>Proyecto para el curso de matematica computacional de la Universidad Peruana de Ciencias Aplicadas</span>
+<span>Proyecto para el curso de matematica computacional de la Universidad Peruana de Ciencias Aplicadas - 3er ciclo :heart:</span>
 <h3>Canny Filter - Edge detection</h3>
 <img src = "http://fileadmin.cs.lth.se/cs/Personal/Calle_Lejdfors/pyip/edges.png" />
 <br>
