@@ -1,5 +1,7 @@
 <div align="center">
   
+  ![image processing](https://www.gdpicture.com/wp-content/uploads/image-processing.png)
+  
   # Image processing  
   --- 
   Project for the computer mathematics course of the Peruvian University of Applied Sciences - 3rd cycle
@@ -32,5 +34,3 @@ El filtro de la mediana trabaja de la manera siguiente para poder asignar los va
 </div>
 
 ### Mirror Filter - Selfie effect
-
-![]("https://is5-ssl.mzstatic.com/image/thumb/Purple49/v4/26/b6/20/26b620da-31a1-b2e1-35a7-73bcaaabfa90/source/512x512bb.jpg")
